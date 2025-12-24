@@ -5,14 +5,14 @@ Reference: https://docs.ultralytics.com/solutions/
 Task:
 Analyze at least 03 among the list of applications in the reference link.
 
-This project implements and analyzes **four** Ultralytics “Solutions” applications (ex1–ex4). Each exercise is runnable from the repo root and uses local paths that resolve correctly by default.
+This project implements and analyzes Ultralytics “Solutions” applications (reference above). Each exercise is runnable from the repo root and uses local paths that resolve correctly by default.
 
 ## Project Structure
 
-- `ex1/`: heatmap + tracking + speed estimation analytics on a local video (on people)
-- `ex2/`: traffic heatmap from YouTube (CLI + Streamlit UI + records)(on vehicles)
-- `ex3/`: parking occupancy (spot selection + parking manager)
-- `ex4/`: instance segmentation on a local video
+- `exa/`: heatmap + tracking + speed estimation analytics on a local video (people)
+- `exb/`: traffic heatmap from YouTube (CLI + Streamlit UI + records) (vehicles)
+- `exd/`: parking occupancy (spot selection + parking manager)
+- `exc/`: instance segmentation on a local video
 - `models/`: weights used by the demos (`yolo11n.pt`, `yolo11n-seg.pt`)
 
 ## Installation
@@ -23,7 +23,7 @@ Core dependencies:
 python3 -m pip install ultralytics opencv-python numpy
 ```
 
-For `ex2` Streamlit mode and YouTube stream extraction:
+For `exb` Streamlit mode and YouTube stream extraction:
 
 ```bash
 python3 -m pip install streamlit yt-dlp
@@ -31,13 +31,13 @@ python3 -m pip install streamlit yt-dlp
 
 Notes:
 
-- `ex2` extracts an HLS (`m3u8`) stream via `yt-dlp --js-runtime node`, so Node.js is typically required (`node` on PATH).
+- `exb` extracts an HLS (`m3u8`) stream via `yt-dlp --js-runtime node`, so Node.js is typically required (`node` on PATH).
 
 ---
 
-## Application 1: Human Activity Detection (ex1)
+## Application 1: Human Activity Detection (exa)
 
-Script: `ex1/ex1.py`
+Script: `exa/exa.py`
 
 What it does:
 
@@ -47,13 +47,13 @@ What it does:
 
 Inputs/outputs:
 
-- Input video (default): `ex1/ex1.mp4`
-- Output video (default): `ex1/final_output_heatmap.mp4`
+- Input video (default): `exa/exa.mp4`
+- Output video (default): `exa/final_output_heatmap.mp4`
 
 Run:
 
 ```bash
-python3 ex1/ex1.py
+python3 exa/exa.py
 ```
 
 Key parameters (why they matter):
@@ -69,9 +69,9 @@ Strengths / limitations:
 
 ---
 
-## Application 2: Traffic Analytics (Heatmap + Speed + Counting) (ex2)
+## Application 2: Traffic Analytics (Heatmap + Speed + Counting) (exb)
 
-Script: `ex2/ex2.py`
+Script: `exb/exb.py`
 
 What it does:
 
@@ -83,19 +83,19 @@ What it does:
 Inputs/outputs:
 
 - Input: YouTube URL (stream extracted via `yt-dlp`)
-- Output video (default): `ex2/traffic_analysis_heatmap.mp4`
-- Records folder (Streamlit “Save to disk”): `ex2/records/`
+- Output video (default): `exb/traffic_analysis_heatmap.mp4`
+- Records folder (Streamlit “Save to disk”): `exb/records/`
 
 Run (CLI / OpenCV window):
 
 ```bash
-python3 ex2/ex2.py
+python3 exb/exb.py
 ```
 
 Run (Streamlit UI):
 
 ```bash
-streamlit run ex2/ex2.py
+streamlit run exb/exb.py
 ```
 
 Key parameters (why they matter):
@@ -111,12 +111,42 @@ Strengths / limitations:
 
 ---
 
-## Application 3: Parking Management (ex3)
+
+## Application 3: Instance Segmentation (exc)
+
+Script: `exc/instance_segmentation.py`
+
+What it does:
+
+- Runs Ultralytics `solutions.InstanceSegmentation` to produce per-object masks (e.g., cars) and overlays them on video frames.
+
+Inputs/outputs:
+
+- Input video (default): `exc/car_video.mp4`
+- Optional output video: `-o exc/instance_segmentation_output.mp4`
+
+Run:
+
+```bash
+python3 exc/instance_segmentation.py
+```
+
+Key parameters (why they matter):
+
+- `--conf`, `--iou`: tradeoff between missing objects vs including false positives.
+- Segmentation weights (`models/yolo11n-seg.pt`): segmentation models are required; detection-only weights won’t output masks.
+
+Strengths / limitations:
+
+- Strength: masks enable pixel-accurate reasoning (e.g., lane occupancy, area estimation) beyond bounding boxes.
+- Limitation: segmentation is heavier than detection; FPS is typically lower on CPU.
+
+## Application 4: Parking Management (exd)
 
 Scripts:
 
-- `ex3/bounding_boxes.py`: interactive parking-spot selection (generates `ex3/bounding_boxes.json`)
-- `ex3/parking.py`: runs Ultralytics `solutions.ParkingManagement` to mark spots as occupied/free
+- `exd/bounding_boxes.py`: interactive parking-spot selection (generates `exd/bounding_boxes.json`)
+- `exd/parking.py`: runs Ultralytics `solutions.ParkingManagement` to mark spots as occupied/free
 
 What it does:
 
@@ -125,15 +155,15 @@ What it does:
 
 Inputs/outputs:
 
-- Input video (default): `ex3/parking_video.mp4`
-- Spot definition: `ex3/bounding_boxes.json`
-- Optional output video: `-o ex3/parking_output.mp4`
+- Input video (default): `exd/parking_vdo.mp4` (fallback: `exd/parking_video.mp4`)
+- Spot definition: `exd/bounding_boxes.json`
+- Optional output video: `-o exd/parking_output.mp4`
 
 Run:
 
 ```bash
-python3 ex3/bounding_boxes.py
-python3 ex3/parking.py
+python3 exd/bounding_boxes.py
+python3 exd/parking.py
 ```
 
 Key parameters (why they matter):
@@ -148,32 +178,3 @@ Strengths / limitations:
 - Limitation: strong dependence on camera angle and occlusions; long occlusions can break tracking IDs.
 
 ---
-
-## Application 4: Instance Segmentation (ex4)
-
-Script: `ex4/instance_segmentation.py`
-
-What it does:
-
-- Runs Ultralytics `solutions.InstanceSegmentation` to produce per-object masks (e.g., cars) and overlays them on video frames.
-
-Inputs/outputs:
-
-- Input video (default): `ex4/car_video.mp4`
-- Optional output video: `-o ex4/instance_segmentation_output.mp4`
-
-Run:
-
-```bash
-python3 ex4/instance_segmentation.py
-```
-
-Key parameters (why they matter):
-
-- `--conf`, `--iou`: tradeoff between missing objects vs including false positives.
-- Segmentation weights (`models/yolo11n-seg.pt`): segmentation models are required; detection-only weights won’t output masks.
-
-Strengths / limitations:
-
-- Strength: masks enable pixel-accurate reasoning (e.g., lane occupancy, area estimation) beyond bounding boxes.
-- Limitation: segmentation is heavier than detection; FPS is typically lower on CPU.
