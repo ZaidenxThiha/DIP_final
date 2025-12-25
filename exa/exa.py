@@ -15,6 +15,7 @@ DEFAULT_INPUT_VIDEO = "exa.mp4"
 DEFAULT_OUTPUT_VIDEO = "final_output_heatmap.mp4"
 DEFAULT_MODEL_PATH = "models/yolo11n.pt"
 
+
 CONF = 0.3
 IOU = 0.5
 TRACKER = "botsort.yaml"

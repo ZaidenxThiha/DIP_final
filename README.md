@@ -86,17 +86,21 @@ Inputs/outputs:
 - Output video (default): `exb/traffic_analysis_heatmap.mp4`
 - Records folder (Streamlit “Save to disk”): `exb/records/`
 
-Run (CLI / OpenCV window):
+Run (CLI / OpenCV window):(Optional : Streamlit is better)
 
 ```bash
 python3 exb/exb.py
 ```
 
+https://www.youtube.com/watch?v=muijHPW82vI
+
+````
+
 Run (Streamlit UI):
 
 ```bash
 streamlit run exb/exb.py
-```
+````
 
 Key parameters (why they matter):
 
@@ -110,7 +114,6 @@ Strengths / limitations:
 - Limitation: stop detection from vision alone can misfire in occlusions or when the tracker ID switches.
 
 ---
-
 
 ## Application 3: Instance Segmentation (exc)
 
