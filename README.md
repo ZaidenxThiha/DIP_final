@@ -17,16 +17,57 @@ This project implements and analyzes Ultralytics “Solutions” applications (r
 
 ## Installation
 
+### Recommended: use a virtual environment
+
+Virtual environments are machine-specific, so create the `.venv` locally:
+
+macOS/Linux:
+
+```bash
+# If `python3` is broken on your machine, use `python3.11` (recommended for Ultralytics).
+python3.11 -m venv .venv
+source .venv/bin/activate
+
+python -m pip install -U pip
+python -m pip install -r requirements.txt
+```
+
+Or use the bootstrap script:
+
+```bash
+./scripts/bootstrap.sh
+```
+
+Windows (PowerShell):
+
+```powershell
+py -3.11 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+
+python -m pip install -U pip
+python -m pip install -r requirements.txt
+```
+
+All commands below assume the venv is activated (so `python` points at `.venv`).
+
+Troubleshooting (macOS/Homebrew): if `python3 -V` prints nothing, your `python3` on PATH is broken; use `python3.11` (or reinstall Homebrew Python) when creating the venv.
+
+If you don’t want to activate the venv, you can always run with:
+
+```bash
+.venv/bin/python exa/exa.py
+```
+
 Core dependencies:
 
 ```bash
-python3 -m pip install ultralytics opencv-python numpy
+python -m pip install ultralytics opencv-python numpy
 ```
 
 For `exb` Streamlit mode and YouTube stream extraction:
 
 ```bash
-python3 -m pip install streamlit yt-dlp
+python -m pip install -r requirements-exb.txt
 ```
 
 Notes:
@@ -53,7 +94,7 @@ Inputs/outputs:
 Run:
 
 ```bash
-python3 exa/exa.py
+python exa/exa.py
 ```
 
 Key parameters (why they matter):
@@ -89,7 +130,7 @@ Inputs/outputs:
 Run (CLI / OpenCV window):(Optional : Streamlit is better)
 
 ```bash
-python3 exb/exb.py
+python exb/exb.py
 ```
 
 https://www.youtube.com/watch?v=muijHPW82vI
@@ -131,7 +172,7 @@ Inputs/outputs:
 Run:
 
 ```bash
-python3 exc/instance_segmentation.py
+python exc/instance_segmentation.py
 ```
 
 Key parameters (why they matter):
@@ -165,8 +206,8 @@ Inputs/outputs:
 Run:
 
 ```bash
-python3 exd/bounding_boxes.py
-python3 exd/parking.py
+python exd/bounding_boxes.py
+python exd/parking.py
 ```
 
 Key parameters (why they matter):
